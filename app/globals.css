@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: #f6f7f9;
+  --foreground: #14181f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter), var(--font-ml), system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), var(--font-ml), system-ui, sans-serif;
+}
+
+/* Ticker preview: a faux broadcast screen with a scrolling strip. */
+.ticker-screen {
+  position: relative;
+  aspect-ratio: 16 / 6;
+  min-height: 150px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #1b2433;
+}
+.ticker-live {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  background: #c0262d;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ticker-bar {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  height: 46px;
+  background: #fff;
+}
+.ticker-tag {
+  display: flex;
+  flex: none;
+  align-items: center;
+  padding: 0 16px;
+  background: #c0262d;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+.ticker-window {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  /* Lets .ticker-half size itself to the window with cqw; a % would be circular. */
+  container-type: inline-size;
+}
+.ticker-track {
+  display: flex;
+  flex: none;
+  white-space: nowrap;
+  animation: ticker-scroll linear infinite;
+}
+.ticker-half {
+  display: flex;
+  flex: none;
+  min-width: 100cqw;
+}
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  padding-right: 28px;
+  color: #111;
+  font-size: 17px;
+  font-weight: 500;
+}
+.ticker-item::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 28px;
+  background: #c0262d;
+}
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+/* People who ask their system for less motion get a still, scrollable strip. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .ticker-window { overflow-x: auto; }
+}
+
+/* Visible keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid #b91c1c;
+  outline-offset: 2px;
+}
